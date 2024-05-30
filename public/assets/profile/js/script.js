@@ -16,10 +16,25 @@ function setNewNumber(number) {
   }
 }
 
+function changeWaitingStatus() {
+  var button = document.getElementById('sms-button');
+  var gif = document.getElementById('loading-gif');
+
+  if (button.style.display !== 'none') {
+    button.style.display = 'none';
+    gif.style.display = 'inline';
+  } else {
+    button.style.display = 'inline';
+    gif.style.display = 'none';
+  }
+}
+
+
 function setActivationCode(code) {
   var codeElement = document.getElementById('verification-code');
   if (codeElement) {
     codeElement.innerHTML = code;
+    changeWaitingStatus();
   } else {
     console.error("No se encontraron los elementos de cantidades code");
   }
@@ -214,6 +229,8 @@ async function receiveSMS() {
 
     if (result.isConfirmed) {
 
+      changeWaitingStatus()
+
       // let orderId = getOrderId();
 
       // const response = await fetch(`/api/sms/receive/${orderId}`);
@@ -231,7 +248,10 @@ async function receiveSMS() {
       // }
 
       if (responseJson.data.sms.code) {
-        setActivationCode(responseJson.data.sms.code);
+        // setActivationCode(responseJson.data.sms.code);
+        setTimeout(function() {
+          setActivationCode(responseJson.data.sms.code);
+      }, 4000); 
       }
     }
 
