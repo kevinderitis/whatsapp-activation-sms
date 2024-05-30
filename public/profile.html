@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/profile/css/style.css">
+</head>
+
+<body>
+    <div id="copyAlert" class="alert"></div>
+    <div class="profile">
+        <button class="btn btn--primary logout-btn" onclick="logout()"
+            style="position: absolute; top: 20px; right: 20px;">
+            Log out
+        </button>
+        <header class="profile__header">
+            <div class="profile__highlight__wrapper">
+                <div class="profile__highlight">
+                    Balance
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chart-bar" width="24"
+                        height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <rect x="3" y="12" width="6" height="8" rx="1"></rect>
+                        <rect x="9" y="8" width="6" height="12" rx="1"></rect>
+                        <rect x="15" y="4" width="6" height="16" rx="1"></rect>
+                        <line x1="4" y1="20" x2="18" y2="20"></line>
+                    </svg>
+                    $<a id="balance-ars">0</a>
+                    <button class="btn btn--secondary" id="topUpButton">
+                        Cargar saldo
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div>
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Número de telefono</th>
+                            <th>Recibir SMS</th>
+                            <th>Codigo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div id="whatsapp-number">564654654</div>
+                                <button onclick="copyToClipboard('whatsapp-number')"
+                                    style="background-color: transparent; border: none;">
+                                    <i class="fa-regular fa-copy"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <button onclick="testWhatsapp()" style="background-color: transparent; border: none;">
+                                    <img src="assets/profile/sms-image.svg" alt="Editar" width="24" height="24">
+                                </button>
+                            </td>
+                            <td>
+                                <div id="verification-code">789456</div>
+                                <button onclick="copyToClipboard('verification-code')"
+                                    style="background-color: transparent; border: none;">
+                                    <i class="fa-regular fa-copy"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+        <button class="btn btn--primary" id="newNumber">
+            Nuevo numero
+        </button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/constants.js"></script>
+    <script src="assets/profile/js/script.js"></script>
+</body>
+
+</html>
