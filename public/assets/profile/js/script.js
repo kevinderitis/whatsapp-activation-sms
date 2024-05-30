@@ -12,8 +12,38 @@ function setNewNumber(number) {
   if (numberElement) {
     numberElement.innerHTML = number;
   } else {
+    console.error("No se encontraron los elementos de cantidades num");
+  }
+}
+
+function setActivationCode(code) {
+  var codeElement = document.getElementById('verification-code');
+  if (codeElement) {
+    codeElement.innerHTML = code;
+  } else {
+    console.error("No se encontraron los elementos de cantidades code");
+  }
+}
+
+function setOrderId(orderId) {
+  var orderNumber = document.getElementById('order-number-td');
+  if (orderNumber) {
+    orderNumber.textContent = orderId;
+  } else {
     console.error("No se encontraron los elementos de cantidades");
   }
+}
+
+function getOrderId() {
+  var orderNumber = document.getElementById('order-number-td');
+  if (orderNumber) {
+    return orderNumber.textContent;
+  }
+}
+
+function checkNumber() {
+  var numberElement = document.getElementById('whatsapp-number');
+  return numberElement && numberElement.innerHTML;
 }
 
 async function fetchDataFromServer() {
@@ -96,14 +126,30 @@ function fakeResponseNumber() {
   let response = {
     statusCode: 200,
     data: {
-        orderId: 151069516,
-        phoneNumber: "1155617091",
-        countryCode: "+54",
-        orderExpireIn: 600
+      orderId: 151069516,
+      phoneNumber: "1155617091",
+      countryCode: "+54",
+      orderExpireIn: 600
     }
-};
+  };
   return response;
 }
+
+function fakeResponseCode() {
+  let response = {
+    statusCode: 200,
+    data: {
+      sms: {
+        code: "103966",
+        fullText: "<#> Codigo de WhatsApp: 103-966__O sigue este enlace para verificar tu numero: v.whatsapp.com/103966__No compartas este codigo con nadie._4sgLq1p5sV6"
+      },
+      orderId: 151069516,
+      orderExpireIn: 432
+    }
+  }
+  return response;
+};
+
 
 async function getNewNumber() {
   try {
@@ -139,6 +185,53 @@ async function getNewNumber() {
 
       if (responseJson.data.phoneNumber) {
         setNewNumber(responseJson.data.phoneNumber);
+        setOrderId(responseJson.data.orderId);
+      }
+    }
+
+  } catch (error) {
+    Swal.fire({
+      title: 'Error',
+      text: error.message,
+      icon: 'error',
+      confirmButtonText: 'OK'
+    });
+
+    console.error('Error al recargar saldo:', error);
+  }
+}
+
+async function receiveSMS() {
+  try {
+    let result = await Swal.fire({
+      title: "Recibiras el mensaje en unos segundos",
+      text: "Si ya comenzaste con la creaciòn de la cuenta con el numero solicitado, tocá continuar y esperá unos segundos a recibir el código de confirmación. Una vez recibido ingresalo y listo!",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Continuar"
+    });
+
+    if (result.isConfirmed) {
+
+      // let orderId = getOrderId();
+
+      // const response = await fetch(`/api/sms/receive/${orderId}`);
+
+      // const responseJson = await response.json();
+      let responseJson = {};
+      responseJson = fakeResponseCode();
+      // if (response.status === '402') {
+      //   Swal.fire({
+      //     title: 'Error',
+      //     text: 'No tiene saldo en su cuenta para comprar un nuevo numero',
+      //     icon: 'error',
+      //     confirmButtonText: 'OK'
+      //   });
+      // }
+
+      if (responseJson.data.sms.code) {
+        setActivationCode(responseJson.data.sms.code);
       }
     }
 

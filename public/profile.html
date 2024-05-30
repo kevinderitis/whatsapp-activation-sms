@@ -44,7 +44,8 @@
             <div>
                 <table class="orders-table">
                     <thead>
-                        <tr>
+                        <tr>   
+                            <th id="order-number-th">Número de orden</th>
                             <th>Número de telefono</th>
                             <th>Recibir SMS</th>
                             <th>Codigo</th>
@@ -52,20 +53,22 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td id="order-number-td">
+                            </td>
                             <td>
-                                <div id="whatsapp-number">564654654</div>
+                                <div id="whatsapp-number"></div>
                                 <button onclick="copyToClipboard('whatsapp-number')"
                                     style="background-color: transparent; border: none;">
                                     <i class="fa-regular fa-copy"></i>
                                 </button>
                             </td>
                             <td>
-                                <button onclick="testWhatsapp()" style="background-color: transparent; border: none;">
+                                <button onclick="receiveSMS()" style="background-color: transparent; border: none;">
                                     <img src="assets/profile/sms-image.svg" alt="Editar" width="24" height="24">
                                 </button>
                             </td>
                             <td>
-                                <div id="verification-code">789456</div>
+                                <div id="verification-code"></div>
                                 <button onclick="copyToClipboard('verification-code')"
                                     style="background-color: transparent; border: none;">
                                     <i class="fa-regular fa-copy"></i>
