@@ -32,13 +32,21 @@ export const login = async (req, res) => {
 
         if (passwordMatch) {
             req.session.user = user;
-            res.send({ result: `Acceso permitido: ${user.email}`});
+            res.send({ result: `Acceso permitido: ${user.email}` });
         } else {
             return res.status(401).send('Nombre de usuario o contraseña incorrectos');
         }
     } catch (error) {
         console.error(error);
         res.status(500).send('Error interno del servidor');
+    }
+};
+
+export const checklogin = async (req, res) => {
+    if (req.session && req.session.user) {
+        res.json({ loggedIn: true });
+    } else {
+        res.json({ loggedIn: false });
     }
 };
 
@@ -63,7 +71,7 @@ export const logout = async (req, res) => {
                 console.error('Error al destruir la sesión:', err);
                 res.status(500).send('Error al cerrar la sesión');
             } else {
-                res.send({ result: 'Logout ok'});
+                res.send({ result: 'Logout ok' });
             }
         });
     } catch (error) {

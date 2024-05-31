@@ -62,6 +62,7 @@ function checkNumber() {
 }
 
 async function fetchDataFromServer() {
+  const orderTable = document.getElementById("order-table-id");
   try {
     const response = await fetch(`/user/data`);
 
@@ -73,8 +74,15 @@ async function fetchDataFromServer() {
     }
 
     const data = await response.json();
-
     const balance = data.balance;
+    const phoneNumber = data.phoneNumber;
+    const orderId = data.orderId;
+
+    if(phoneNumber && orderId) {
+      orderTable.style.display = "table";
+      setNewNumber(phoneNumber);
+      setOrderId(orderId);
+    }
 
     setBalance(balance);
 
@@ -96,7 +104,10 @@ async function topUpBalance() {
       },
       showCancelButton: true,
       confirmButtonText: 'Recargar',
-      cancelButtonText: 'Cancelar'
+      cancelButtonText: 'Cancelar',
+      customClass: {
+        popup: 'custom-swal'
+      }
     });
 
     if (amount) {
@@ -126,7 +137,10 @@ async function topUpBalance() {
       title: 'Error',
       text: error.message,
       icon: 'error',
-      confirmButtonText: 'OK'
+      confirmButtonText: 'OK',
+      customClass: {
+        popup: 'custom-swal'
+      }
     });
 
     console.error('Error al recargar saldo:', error);
@@ -141,7 +155,10 @@ async function getNewNumber() {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Si, lo quiero!"
+      confirmButtonText: "Si, lo quiero!",
+      customClass: {
+        popup: 'custom-swal'
+      }
     });
 
     if (result.isConfirmed) {
@@ -164,7 +181,10 @@ async function getNewNumber() {
       title: 'Error',
       text: error.message,
       icon: 'error',
-      confirmButtonText: 'OK'
+      confirmButtonText: 'OK',
+      customClass: {
+        popup: 'custom-swal'
+      }
     });
 
     console.error('Error al recargar saldo:', error);
@@ -179,7 +199,10 @@ async function receiveSMS() {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Continuar"
+      confirmButtonText: "Continuar",
+      customClass: {
+        popup: 'custom-swal'
+      }
     });
 
     if (result.isConfirmed) {
@@ -203,7 +226,10 @@ async function receiveSMS() {
       title: 'Error',
       text: error.message,
       icon: 'error',
-      confirmButtonText: 'OK'
+      confirmButtonText: 'OK',
+      customClass: {
+        popup: 'custom-swal'
+      }
     });
 
     console.error('Error al recargar saldo:', error);

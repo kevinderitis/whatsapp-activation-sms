@@ -92,25 +92,6 @@ const updateUserStateByEmail = async (state, email) => {
     }
 };
 
-const addNumber = async (id) => {
-    try {
-        const updatedUser = await User.findByIdAndUpdate(
-            id,
-            { $inc: { numbers: 1 } },
-            { new: true }
-        );
-        if (!updatedUser) {
-            throw new Error('Usuario no encontrado');
-        }
-        console.log('Usuario actualizado:', updatedUser);
-        return updatedUser;
-    } catch (error) {
-        console.error('Error al actualizar usuario:', error.message);
-        throw new Error('No se pudo actualizar el usuario');
-    }
-};
-
-
 const deleteUserById = async (userId) => {
     try {
         const deletedUser = await User.findByIdAndDelete(userId);
@@ -156,4 +137,4 @@ const setPayment = async (id, amount) => {
 };
 
 
-export { createNewUser, getAllUsers, getUserById, updateUserById, deleteUserById, getUserByEmail, updateUserPhoneByEmail, updateUserStateByEmail, addNumber, setPayment };
+export { createNewUser, getAllUsers, getUserById, updateUserById, deleteUserById, getUserByEmail, updateUserPhoneByEmail, updateUserStateByEmail, setPayment };

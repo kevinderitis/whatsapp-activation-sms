@@ -444,6 +444,11 @@ body {
     overflow: hidden;
 }
 
+.swal2-container {
+    background-color: #4CAF50 !important;
+    border-color: #4CAF50 !important;
+}
+
 .swal2-confirm {
     background-color: #4CAF50 !important;
     /* Verde */
@@ -481,6 +486,7 @@ body {
     #order-number-td {
         display: none;
     }
+
 }
 
 .alert {
@@ -493,4 +499,16 @@ body {
     color: black;
     padding: 10px 20px;
     border-radius: 5px;
+}
+
+.logo-img {
+    width: 200px;
+    height: auto;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.custom-swal {
+    border-radius: 15px !important;
 }

@@ -41,3 +41,21 @@ loginForm.addEventListener("submit", async (e) => {
     console.error('Error al enviar la solicitud:', error.message);
   }
 });
+
+async function checkLoggedIn() {
+  try {
+    const response = await fetch(`/auth/checkLoggedIn`);
+    if (response.ok) {
+      const data = await response.json();
+      if (data.loggedIn) {
+        window.location.href = 'profile.html';
+      }
+    } else {
+      throw new Error('Error al verificar el estado de inicio de sesión');
+    }
+  } catch (error) {
+    console.error('Error al verificar el estado de inicio de sesión:', error.message);
+  }
+}
+
+window.addEventListener('DOMContentLoaded', checkLoggedIn);
