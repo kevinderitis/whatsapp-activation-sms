@@ -74,8 +74,6 @@ async function fetchDataFromServer() {
 
     const data = await response.json();
 
-    console.log(data)
-
     const balance = data.balance;
 
     setBalance(balance);
@@ -113,17 +111,15 @@ async function topUpBalance() {
       if (!response.ok) {
         throw new Error('Error al recargar saldo');
       }
-
       const data = await response.json();
+      console.log(data)
 
-      Swal.fire({
-        title: 'Éxito',
-        text: 'Saldo recargado con éxito',
-        icon: 'success',
-        confirmButtonText: 'OK'
-      });
-
-      console.log('Saldo recargado con éxito: aguarde unos minutos a que impacte el pago.');
+      if (data.response) {
+        window.location.href = data.response;
+      } else {
+        throw new Error('La respuesta no contiene una URL válida');
+      }
+      
     }
   } catch (error) {
     Swal.fire({
@@ -137,35 +133,6 @@ async function topUpBalance() {
   }
 }
 
-function fakeResponseNumber() {
-  let response = {
-    statusCode: 200,
-    data: {
-      orderId: 151069516,
-      phoneNumber: "1155617091",
-      countryCode: "+54",
-      orderExpireIn: 600
-    }
-  };
-  return response;
-}
-
-function fakeResponseCode() {
-  let response = {
-    statusCode: 200,
-    data: {
-      sms: {
-        code: "103966",
-        fullText: "<#> Codigo de WhatsApp: 103-966__O sigue este enlace para verificar tu numero: v.whatsapp.com/103966__No compartas este codigo con nadie._4sgLq1p5sV6"
-      },
-      orderId: 151069516,
-      orderExpireIn: 432
-    }
-  }
-  return response;
-};
-
-
 async function getNewNumber() {
   try {
     let result = await Swal.fire({
@@ -178,27 +145,15 @@ async function getNewNumber() {
     });
 
     if (result.isConfirmed) {
-      // const response = await fetch(`/api/sms/number`, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify({ amount: Number(amount) })
-      // });
+      const response = await fetch('/api/sms/number');
+      let data;
 
-      // const responseJson = await response.json();
-      let responseJson = {};
-      responseJson = fakeResponseNumber();
-      // if (response.status === '402') {
-      //   Swal.fire({
-      //     title: 'Error',
-      //     text: 'No tiene saldo en su cuenta para comprar un nuevo numero',
-      //     icon: 'error',
-      //     confirmButtonText: 'OK'
-      //   });
-      // }
+      if (response.status === 402) {
+        throw new Error('No tiene saldo en su cuenta para comprar un nuevo numero');
+      }
 
-      if (responseJson.data.phoneNumber) {
+      if (response.status === 201) {
+        data = await response.json();
         setNewNumber(responseJson.data.phoneNumber);
         setOrderId(responseJson.data.orderId);
       }
@@ -231,28 +186,16 @@ async function receiveSMS() {
 
       changeWaitingStatus()
 
-      // let orderId = getOrderId();
+      let orderId = getOrderId();
 
-      // const response = await fetch(`/api/sms/receive/${orderId}`);
-
-      // const responseJson = await response.json();
-      let responseJson = {};
-      responseJson = fakeResponseCode();
-      // if (response.status === '402') {
-      //   Swal.fire({
-      //     title: 'Error',
-      //     text: 'No tiene saldo en su cuenta para comprar un nuevo numero',
-      //     icon: 'error',
-      //     confirmButtonText: 'OK'
-      //   });
-      // }
-
-      if (responseJson.data.sms.code) {
-        // setActivationCode(responseJson.data.sms.code);
-        setTimeout(function() {
-          setActivationCode(responseJson.data.sms.code);
-      }, 4000); 
+      if (!orderId) {
+        throw new Error('Debes obtener primero un numero para recibir un sms.');
       }
+
+      const response = await fetch(`/api/sms/receive/${orderId}`);
+      const order = await response.json();
+      console.log(order)
+      setActivationCode(order.data.sms.code);
     }
 
   } catch (error) {

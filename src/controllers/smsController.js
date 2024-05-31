@@ -5,7 +5,8 @@ import config from "../config/config.js";
 export const getNumber = async (req, res) => {
     let user = req.session.user ? req.session.user : req.user;
     try {
-        if (hasSufficientBalance(user._id)) {
+        let balanceValidation = await hasSufficientBalance(user._id);
+        if (balanceValidation) {
             let response = await getNumberService(config.AR_COUNTRY_CODE, config.WPP_SERVICE_CODE);
             res.status(201).send(response);
         }else{

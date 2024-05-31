@@ -1,4 +1,4 @@
-import { getUserDataService, addNumberService } from "../services/userService.js";
+import { getUserDataService, addNumberService, topUpBalanceService } from "../services/userService.js";
 import config from "../config/config.js";
 
 export const getUserData = async (req, res) => {
@@ -28,7 +28,7 @@ export const topUpBalance = async (req, res) => {
     let { amount } = req.body;
     try {
         let response = await topUpBalanceService(user._id, amount);
-        res.status(201).send(response);
+        res.status(201).send({ response });
     } catch (error) {
         console.error(error);
         res.status(500).send(error.message);

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { receivePayment } from '../controllers/mpController';
+import { receivePayment } from '../controllers/mpController.js';
 
 const mpRouter = Router();
 

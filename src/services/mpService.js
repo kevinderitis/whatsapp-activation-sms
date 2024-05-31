@@ -4,7 +4,7 @@ import config from '../config/config.js';
 
 const client = new MercadoPagoConfig({ accessToken: config.MERCADOPAGO_ACCESS_TOKEN });
 
-export const createPaymentPreference = async (userId, amount) => {
+export const createPaymentPreference = async (amount, orderId) => {
     try {
         const productPrice = Number(amount);
         const preference = new Preference(client);
@@ -15,7 +15,7 @@ export const createPaymentPreference = async (userId, amount) => {
                     unit_price: productPrice,
                     quantity: 1
                 }],
-                external_reference: userId,
+                external_reference: orderId,
                 notification_url: `${config.APP_DOMAIN}/mp/webhook`,
                 back_urls: {
                     success: config.BACK_SUCCESS_URL_MP
