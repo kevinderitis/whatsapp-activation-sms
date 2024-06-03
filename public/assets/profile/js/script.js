@@ -132,7 +132,7 @@ async function topUpBalance() {
       } else {
         throw new Error('La respuesta no contiene una URL válida');
       }
-      
+
     }
   } catch (error) {
     Swal.fire({
@@ -279,6 +279,20 @@ function showCopiedAlert() {
 document.addEventListener('DOMContentLoaded', fetchDataFromServer);
 document.getElementById('topUpButton').addEventListener('click', topUpBalance);
 document.getElementById('newNumber').addEventListener('click', getNewNumber);
-document.getElementById('reloadButton').addEventListener('click', function() {
-  location.reload();
+document.getElementById('reloadButton').addEventListener('click', function () {
+  var gif = document.getElementById('loading-gif');
+  console.log(gif)
+  if (gif.style.display === 'none') {
+    location.reload();
+  } else {
+    Swal.fire({
+      title: 'Error',
+      text: 'No se puede recargar mientras esperas sms',
+      icon: 'error',
+      confirmButtonText: 'Esperar',
+      customClass: {
+        popup: 'custom-swal'
+      }
+    });
+  }
 });
