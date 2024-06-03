@@ -487,6 +487,10 @@ body {
         display: none;
     }
 
+    #topUpButton {
+        margin-left: 20px;
+    }
+
 }
 
 .alert {
@@ -512,3 +516,24 @@ body {
 .custom-swal {
     border-radius: 15px !important;
 }
+
+.reloadButton {
+    margin-left: 20px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.reloadButton i {
+    color: #0000009b; 
+}
+
+.reloadButton:hover i {
+    color: #50aa0f; 
+}
+
+#balance-div {
+    margin-left: 20px;
+}
+

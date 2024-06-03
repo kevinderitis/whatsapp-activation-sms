@@ -12,8 +12,8 @@ export const getUserDataService = async userId => {
             _id: user.id,
             balance: user.balance,
             email: user.email,
-            phoneNumber: number.phoneNumber,
-            orderId: number.orderId
+            phoneNumber: number ? number.phoneNumber : '',
+            orderId: number ? number.orderId : ''
         };
         return userData;
     } catch (error) {

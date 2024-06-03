@@ -18,6 +18,25 @@ const createNumber = async (userId, phoneNumber, orderId) => {
     }
 };
 
+const updateNumberStatusToSent = async (orderId) => {
+    try {
+        const updatedNumber = await Number.findOneAndUpdate(
+            { orderId: orderId },
+            { status: 'sent' },
+            { new: true }
+        );
+        if (!updatedNumber) {
+            console.error('No se encontró un número con el orderId proporcionado.');
+        }
+        console.log('Estado del número actualizado exitosamente a "sent":', updatedNumber);
+        return updatedNumber;
+    } catch (error) {
+        console.error('Error al actualizar el status del número:', error.message);
+        throw new Error('No se pudo actualizar el status del número');
+    }
+};
+
+
 const getNumberByOrderId = async (orderId) => {
     try {
         const number = await Number.findOne({ orderId });
@@ -35,9 +54,6 @@ const getNumberByOrderId = async (orderId) => {
 const getActiveNumberByUserId = async (userId) => {
     try {
         const number = await Number.findOne({ userId, status: 'pending' }).sort({ createdAt: -1 });
-        if (!number) {
-            throw new Error('No se encontraron números con el estado pendiente para el usuario proporcionado');
-        }
         console.log('Números encontrados:', number);
         return number;
     } catch (error) {
@@ -48,4 +64,4 @@ const getActiveNumberByUserId = async (userId) => {
 
 
 
-export { createNumber, getNumberByOrderId, getActiveNumberByUserId };
+export { createNumber, getNumberByOrderId, getActiveNumberByUserId, updateNumberStatusToSent };

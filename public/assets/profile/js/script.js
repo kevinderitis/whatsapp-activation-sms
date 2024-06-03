@@ -8,9 +8,11 @@ function setBalance(balanceNumber) {
 }
 
 function setNewNumber(number) {
+  const orderTable = document.getElementById("order-table-id");
   var numberElement = document.getElementById('whatsapp-number');
   if (numberElement) {
     numberElement.innerHTML = number;
+    orderTable.style.display = "table";
   } else {
     console.error("No se encontraron los elementos de cantidades num");
   }
@@ -164,6 +166,7 @@ async function getNewNumber() {
     if (result.isConfirmed) {
       const response = await fetch('/api/sms/number');
       let data;
+      console.log(response)
 
       if (response.status === 402) {
         throw new Error('No tiene saldo en su cuenta para comprar un nuevo numero');
@@ -171,8 +174,10 @@ async function getNewNumber() {
 
       if (response.status === 201) {
         data = await response.json();
-        setNewNumber(responseJson.data.phoneNumber);
-        setOrderId(responseJson.data.orderId);
+        console.log(data.data.phoneNumber);
+        console.log(data.data.orderId);
+        setNewNumber(data.data.phoneNumber);
+        setOrderId(data.data.orderId);
       }
     }
 
@@ -207,13 +212,13 @@ async function receiveSMS() {
 
     if (result.isConfirmed) {
 
-      changeWaitingStatus()
-
       let orderId = getOrderId();
 
       if (!orderId) {
         throw new Error('Debes obtener primero un numero para recibir un sms.');
       }
+
+      changeWaitingStatus()
 
       const response = await fetch(`/api/sms/receive/${orderId}`);
       const order = await response.json();
@@ -274,3 +279,6 @@ function showCopiedAlert() {
 document.addEventListener('DOMContentLoaded', fetchDataFromServer);
 document.getElementById('topUpButton').addEventListener('click', topUpBalance);
 document.getElementById('newNumber').addEventListener('click', getNewNumber);
+document.getElementById('reloadButton').addEventListener('click', function() {
+  location.reload();
+});
