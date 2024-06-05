@@ -226,7 +226,7 @@ async function receiveSMS() {
       if (order.statusCode === 200) {
         setActivationCode(order.data.sms.code);
       } else {
-        let result = Swal.fire({
+        let result = await Swal.fire({
           title: 'Error',
           text: 'No se pudo obtener el sms. Tu dinero fue reembolsado. Intentá con otro numero',
           icon: 'error',
@@ -243,17 +243,19 @@ async function receiveSMS() {
     }
 
   } catch (error) {
-    Swal.fire({
+    let result = await Swal.fire({
       title: 'Error',
-      text: error.message,
+      text: 'No se puede obtener el codigo para ese numero, pruebe con otro.',
       icon: 'error',
       confirmButtonText: 'OK',
       customClass: {
         popup: 'custom-swal'
       }
     });
-
-    console.error('Error al recargar saldo:', error);
+    console.log(result)
+    if(result.isConfirmed){
+      window.location.reload();
+    }
   }
 }
 
