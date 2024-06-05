@@ -26,7 +26,6 @@ function changeWaitingStatus() {
     button.style.display = 'none';
     gif.style.display = 'inline';
   } else {
-    button.style.display = 'inline';
     gif.style.display = 'none';
   }
 }
