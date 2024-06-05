@@ -36,6 +36,24 @@ const updateNumberStatusToSent = async (orderId) => {
     }
 };
 
+const updateNumberStatusToCanceled = async (orderId) => {
+    try {
+        const updatedNumber = await Number.findOneAndUpdate(
+            { orderId: orderId },
+            { status: 'canceled' },
+            { new: true }
+        );
+        if (!updatedNumber) {
+            console.error('No se encontró un número con el orderId proporcionado.');
+        }
+        console.log('Estado del número actualizado exitosamente a "canceled":', updatedNumber);
+        return updatedNumber;
+    } catch (error) {
+        console.error('Error al actualizar el status del número:', error.message);
+        throw new Error('No se pudo actualizar el status del número');
+    }
+};
+
 
 const getNumberByOrderId = async (orderId) => {
     try {
@@ -64,4 +82,4 @@ const getActiveNumberByUserId = async (userId) => {
 
 
 
-export { createNumber, getNumberByOrderId, getActiveNumberByUserId, updateNumberStatusToSent };
+export { createNumber, getNumberByOrderId, getActiveNumberByUserId, updateNumberStatusToSent, updateNumberStatusToCanceled };

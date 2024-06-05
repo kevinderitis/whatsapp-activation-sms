@@ -3,6 +3,6 @@ import { receivePayment } from '../controllers/mpController.js';
 
 const mpRouter = Router();
 
-mpRouter.get('/callback', receivePayment);
+mpRouter.post('/callback', receivePayment);
 
 export default mpRouter;

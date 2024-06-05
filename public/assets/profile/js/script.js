@@ -174,10 +174,9 @@ async function getNewNumber() {
 
       if (response.status === 201) {
         data = await response.json();
-        console.log(data.data.phoneNumber);
-        console.log(data.data.orderId);
         setNewNumber(data.data.phoneNumber);
         setOrderId(data.data.orderId);
+        setBalance(data.data.newBalance);
       }
     }
 
@@ -222,8 +221,26 @@ async function receiveSMS() {
 
       const response = await fetch(`/api/sms/receive/${orderId}`);
       const order = await response.json();
+
       console.log(order)
-      setActivationCode(order.data.sms.code);
+
+      if(order.statusCode === 200){
+        setActivationCode(order.data.sms.code);
+      }else{
+        let result = Swal.fire({
+          title: 'Error',
+          text: 'No se pudo obtener el sms. Tu dinero fue reembolsado. Intentá con otro numero',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          customClass: {
+            popup: 'custom-swal'
+          }
+        });
+        if(result.isConfirmed){
+          window.location.reload();
+        }
+      }
+      
     }
 
   } catch (error) {

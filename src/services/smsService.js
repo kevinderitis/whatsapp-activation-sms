@@ -19,7 +19,8 @@ const receiveSMSService = async (orderId) => {
         });
         return response.data;
     } catch (error) {
-        throw new Error(error.response ? error.response.data : error.message);
+        console.log(error);
+        // throw new Error(error.response ? error.response.data : error.message);
     }
 };
 
@@ -30,7 +31,8 @@ const cancelOrderService = async (orderId) => {
         });
         return response.data;
     } catch (error) {
-        throw new Error(error.response ? error.response.data : error.message);
+        console.log(error)
+        // throw new Error(error.response ? error.response.data : error.message);
     }
 };
 

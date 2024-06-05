@@ -31,5 +31,23 @@ const getOrderById = async (orderId) => {
     }
 };
 
+const setOrderCompleted = async (orderId) => {
+    try {
+        const order = await Order.findById(orderId);
+        if (!order) {
+            throw new Error('La orden no fue encontrada');
+        }
 
-export { createOrder, getOrderById };
+        order.status = 'completed';
+
+        await order.save();
+
+        console.log('Estado de la orden actualizado a "completed":', order);
+        return order;
+    } catch (error) {
+        console.error('Error al actualizar el estado de la orden:', error.message);
+        throw new Error('No se pudo actualizar el estado de la orden');
+    }
+};
+
+export { createOrder, getOrderById, setOrderCompleted };

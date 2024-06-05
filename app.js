@@ -15,7 +15,7 @@ app.use(cors({
     credentials: true
 }));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 app.use(session({
@@ -23,7 +23,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: false, 
+        secure: false,
         httpOnly: true
     }
 }));

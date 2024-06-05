@@ -136,5 +136,40 @@ const setPayment = async (id, amount) => {
     }
 };
 
+const chargeNumber = async (userId, numberValue) => {
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            throw new Error('El usuario no fue encontrado');
+        }
 
-export { createNewUser, getAllUsers, getUserById, updateUserById, deleteUserById, getUserByEmail, updateUserPhoneByEmail, updateUserStateByEmail, setPayment };
+        user.balance -= numberValue;
+
+        await user.save();
+
+        return user.balance;
+    } catch (error) {
+        console.error('Error al descontar el número del balance:', error.message);
+        throw new Error('No se pudo actualizar el balance del usuario');
+    }
+};
+
+const refundBalance = async (userId, numberValue) => {
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            throw new Error('El usuario no fue encontrado');
+        }
+
+        user.balance += numberValue;
+
+        await user.save();
+
+        return user.balance;
+    } catch (error) {
+        console.error('Error al descontar el número del balance:', error.message);
+        throw new Error('No se pudo actualizar el balance del usuario');
+    }
+};
+
+export { createNewUser, getAllUsers, getUserById, updateUserById, deleteUserById, getUserByEmail, updateUserPhoneByEmail, updateUserStateByEmail, setPayment, chargeNumber, refundBalance };
