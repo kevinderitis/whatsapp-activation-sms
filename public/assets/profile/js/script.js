@@ -80,7 +80,7 @@ async function fetchDataFromServer() {
     const phoneNumber = data.phoneNumber;
     const orderId = data.orderId;
 
-    if(phoneNumber && orderId) {
+    if (phoneNumber && orderId) {
       orderTable.style.display = "table";
       setNewNumber(phoneNumber);
       setOrderId(orderId);
@@ -224,9 +224,9 @@ async function receiveSMS() {
 
       console.log(order)
 
-      if(order.statusCode === 200){
+      if (order.statusCode === 200) {
         setActivationCode(order.data.sms.code);
-      }else{
+      } else {
         let result = Swal.fire({
           title: 'Error',
           text: 'No se pudo obtener el sms. Tu dinero fue reembolsado. Intentá con otro numero',
@@ -236,11 +236,11 @@ async function receiveSMS() {
             popup: 'custom-swal'
           }
         });
-        if(result.isConfirmed){
+        if (result.isConfirmed) {
           window.location.reload();
         }
       }
-      
+
     }
 
   } catch (error) {
@@ -293,9 +293,29 @@ function showCopiedAlert() {
   }, 3000);
 }
 
+async function getInfo() {  
+  await Swal.fire({
+    title: "Paso a paso",
+    html: "<div style='text-align: left;'>" +
+    "1- Cargar saldo en tu cuenta (1 número - $3500)<br>" +
+    "2- Presionar botón nuevo número<br>" +
+    "3- Cargar tu nuevo número en WhatsApp y enviar SMS de verificación<br>" +
+    "4- Presionar botón <img src='assets/profile/sms-image.svg' alt='Editar' width='24' height='24'>  para recibir el código de verificación<br>" +
+    "5- Esperar unos segundos a que el mensaje llegue sin recargar la página<br>" +
+    "6- Ingresar el código recibido<br>" +
+    "7- Disfrutar de su nuevo número de WhatsApp</div>",
+    confirmButtonColor: "#3085d6",
+    confirmButtonText: "Entendido!",
+    customClass: {
+      popup: 'custom-swal'
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', fetchDataFromServer);
 document.getElementById('topUpButton').addEventListener('click', topUpBalance);
 document.getElementById('newNumber').addEventListener('click', getNewNumber);
+document.getElementById('infoButton').addEventListener('click', getInfo);
 document.getElementById('reloadButton').addEventListener('click', function () {
   var gif = document.getElementById('loading-gif');
   console.log(gif)
