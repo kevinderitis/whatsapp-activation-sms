@@ -23,7 +23,7 @@ export const createPaymentPreference = async (amount, orderId) => {
             }
         });
 
-        return createdPref.sandbox_init_point;
+        return createdPref.init_point;
     } catch (error) {
         console.error('Error al crear la preferencia de pago:', error);
         throw new Error('Error al procesar la solicitud');
