@@ -16,7 +16,7 @@ export const createPaymentPreference = async (amount, orderId) => {
                     quantity: 1
                 }],
                 external_reference: orderId,
-                notification_url: `https://webhook.site/8261af52-a05b-4ada-aa23-824752910d7f`,
+                notification_url: `${config.APP_DOMAIN}/mp/callback`,
                 back_urls: {
                     success: config.BACK_SUCCESS_URL_MP
                 }

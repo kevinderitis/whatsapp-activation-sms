@@ -6,7 +6,7 @@ import config from './config.js';
 passport.use(new GoogleStrategy({
   clientID: config.GOOGLE_CLIENT_ID,
   clientSecret: config.GOOGLE_CLIENT_SECRET,
-  callbackURL: "/auth/google/callback"
+  callbackURL: `${config.APP_DOMAIN}/auth/google/callback`
 },
   async function (accessToken, refreshToken, profile, done) {
     let email = profile.emails[0].value;
